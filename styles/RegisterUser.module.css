@@ -2,6 +2,7 @@
   background-image: url("/xmas-background.jpg");
   background-size: cover;
 }
+
 .main {
   min-height: 100vh;
   padding: 0;
@@ -22,6 +23,19 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.notification {
+  margin-bottom: 25px;
+  padding: 25px 10px;
+}
+.notification-error {
+  border-top: 2px solid red;
+  border-bottom: 2px solid red;
+}
+.notification-success {
+  border-top: 2px solid green;
+  border-bottom: 2px solid green;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -36,6 +50,7 @@
   min-width: 300px;
   margin-bottom: 5px;
   font-size: 16px;
+  font-family: inherit;
 }
 
 .form-field-message {

@@ -1,30 +1,225 @@
-import React, { useEffect } from "react";
+import Head from "next/head";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import styles from "../styles/RegisterUser.module.css";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 export default function CompleteRegistration({
+  user,
   email,
   token,
+  errorMessage = [],
 }: {
+  user: any;
   email: string;
   token: string;
+  errorMessage: string[];
 }) {
   const router = useRouter();
-
+  const [serverError, setServerError] = useState(errorMessage);
+  const [serverMessage, setServerMessage] = useState([]);
   useEffect(() => {
     if (!email || !token) router.push("/");
-    console.log("Email ", email);
-    console.log("Token ", token);
   }, [email, token]);
-  return <div>complete registration page</div>;
+
+  const buttonHandler = () => {
+    router.push("/");
+  };
+  return (
+    <div className={styles.container}>
+      <div className={styles.overlay}></div>
+      <Head>
+        <title className={"asd"}>ho-ho-ho, it's almost X-mas!</title>
+        <meta name="description" content="" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className={styles.main}>
+        {serverError ? (
+          <div
+            className={`${styles["notification"]} ${styles["notification-error"]}`}
+          >
+            <div className="message error-message">{serverError}</div>
+            <button className={styles["submit-button"]} onClick={buttonHandler}>
+              Go back
+            </button>
+          </div>
+        ) : null}
+
+        {serverMessage.length ? (
+          <div
+            className={`${styles["notification"]} ${styles["notification-success"]}`}
+          >
+            {serverMessage.map((msg) => (
+              <p>{msg}</p>
+            ))}
+          </div>
+        ) : null}
+        <Formik
+          initialValues={{
+            name: user?.name || "",
+            wishes: user?.wishes || "",
+            token,
+            email,
+          }}
+          validate={(values) => {
+            const errors: { name?: string } = {};
+            if (!values.name) {
+              errors.name = "Required";
+            }
+            return errors;
+          }}
+          onSubmit={async (values, { setSubmitting }) => {
+            try {
+              // Make a post request to nextjs server
+              const postData = await fetch("/api/user-registration", {
+                method: "POST",
+                body: JSON.stringify(values),
+              });
+              // parse the result
+              const postResponse = await postData.json();
+
+              // set error message
+              if (postResponse?.errorMessage) {
+                setServerError(postResponse.errorMessage);
+              }
+              // set data
+              if (postResponse?.data?.data) {
+                setServerMessage(postResponse.data.data);
+              }
+              console.log("Post response is ", postResponse);
+            } catch (e) {
+              console.log("Error with submitting: ", e);
+            }
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form className={styles.form}>
+              <Field type="hidden" name="token" />
+              <Field type="hidden" name="email" />
+              <Field
+                type="text"
+                name="name"
+                render={({
+                  field,
+                  form: { isSubmitting },
+                }: {
+                  field: any;
+                  form: { isSubmitting: boolean };
+                }) => {
+                  return (
+                    <input
+                      {...field}
+                      disabled={isSubmitting || !!serverError}
+                      className={styles["form-field"]}
+                      placeHolder="Enter your name*"
+                      type="text"
+                    />
+                  );
+                }}
+              />
+              <ErrorMessage
+                className={styles["form-field-message"]}
+                name="name"
+                component="div"
+              />
+              <Field
+                type="text"
+                as="textarea"
+                name="wishes"
+                render={({
+                  field,
+                  form: { isSubmitting },
+                }: {
+                  field: any;
+                  form: { isSubmitting: boolean };
+                }) => {
+                  return (
+                    <textarea
+                      {...field}
+                      rows={15}
+                      disabled={isSubmitting || !!serverError}
+                      className={styles["form-field"]}
+                      placeHolder="Enter your wish list"
+                    />
+                  );
+                }}
+              />
+              <ErrorMessage
+                className={styles["form-field-message"]}
+                name="wishes"
+                component="div"
+              />
+
+              <button
+                type="submit"
+                className={styles["submit-button"]}
+                disabled={isSubmitting || !!serverError}
+              >
+                Add to Santa's list.
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </main>
+    </div>
+  );
 }
 
 export async function getServerSideProps(context: any) {
+  // return if token or email are not present
+  let user = null;
+  let errorMessage = null;
   const token = context.query.token || null;
   const email = context.query.email || null;
+
+  if (!token || !email) {
+    errorMessage = ["Token or email are missing"];
+    console.log(errorMessage);
+    return {
+      props: {
+        token: null,
+        email: null,
+        errorMessage,
+      },
+    };
+  }
+
+  try {
+    const validateUser = await fetch(
+      "https://eutkkzff3l.execute-api.eu-west-2.amazonaws.com/default/secret-santa-validate-user",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          token: token,
+        }),
+      }
+    );
+
+    const response = await validateUser.json();
+
+    // server error
+    if (response.message) {
+      errorMessage = response.message;
+    }
+    // custom error
+    if (response.errorMessage) {
+      errorMessage = response.errorMessage;
+    }
+
+    if (response.data) {
+      user = response.data || null;
+    }
+  } catch (e) {
+    console.log(e);
+  }
   return {
     props: {
+      user,
       token,
       email,
+      errorMessage,
     },
   };
 }

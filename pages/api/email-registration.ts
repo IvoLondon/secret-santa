@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
@@ -20,7 +19,6 @@ async function registrationHandler(
   }
 
   // ERROR IF EMAIL IS NOT VALID
-  console.log(typeof body);
   const validEmail = body.email.match(
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   );
@@ -37,7 +35,7 @@ async function registrationHandler(
   // POST DATA TO DB
   try {
     const lambdaResponse = await fetch(
-      "https://eutkkzff3l.execute-api.eu-west-2.amazonaws.com/default/secret-santa-registerNewUser",
+      "https://eutkkzff3l.execute-api.eu-west-2.amazonaws.com/default/secret-santa-register-email",
       {
         method: "POST",
         body: JSON.stringify({ email: body.email }),
@@ -46,7 +44,7 @@ async function registrationHandler(
     );
     const data = await lambdaResponse.json();
     return res.status(200).json({
-      data: data,
+      data,
     });
   } catch (e) {
     return res.status(403).json({

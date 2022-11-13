@@ -1,4 +1,3 @@
-const fs = require("fs");
 const crypto = require("crypto");
 const AWS = require("aws-sdk");
 const sgMail = require("@sendgrid/mail");
@@ -69,7 +68,7 @@ exports.handler = async (event) => {
       subject: "Secret santa", // fix subject
       template_id: "d-ced47cb4d61946a780be644c7657f8ef",
       dynamic_template_data: {
-        registration_url: `https://dwyi6ye4g433mzwi3zc66keobe0jcbce.lambda-url.eu-west-2.on.aws?token=${token}&email=${body.email}`,
+        registration_url: `https://secret-santa-b4pct2967-ivolondon.vercel.app?token=${token}&email=${body.email}`,
       },
     };
 
