@@ -19,12 +19,33 @@
   height: 100vh;
   left: 0;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.notification {
+  margin-bottom: 25px;
+  padding: 25px 10px;
+  max-width: 500px;
+  width: 100%;
+}
+.notification-error {
+  border-top: 2px solid red;
+  border-bottom: 2px solid red;
+}
+.notification-success {
+  border-top: 2px solid green;
+  border-bottom: 2px solid green;
+}
+
+.title {
+  font-family: "Mountains of Christmas", cursive;
+  font-size: 60px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
+  min-width: 500px;
 }
 
 .form-field {

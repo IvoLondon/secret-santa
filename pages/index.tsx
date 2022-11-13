@@ -4,20 +4,44 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 export default function Home() {
-  const [serverError, setServerError] = useState([""]);
-  const [serverMessage, setServerMessage] = useState([""]);
+  const [serverError, setServerError] = useState([]);
+  const [serverMessage, setServerMessage] = useState([]);
   const [isCompleted, setCompleted] = useState(false);
   return (
     <div className={styles.container}>
       <div className={styles.overlay}></div>
       <Head>
-        <title className={"asd"}>ho-ho-ho, it's almost X-mas!</title>
+        <title>ho-ho-ho, it's X-mas!</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas&display=swap"
+          rel="stylesheet"
+        />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>Ho-ho-ho, it's time for Secret Santa!</h1>
+        {serverError.length ? (
+          <div
+            className={`${styles["notification"]} ${styles["notification-error"]}`}
+          >
+            {serverError.map((msg) => (
+              <p>{msg}</p>
+            ))}
+          </div>
+        ) : null}
+        {serverMessage.length ? (
+          <div
+            className={`${styles["notification"]} ${styles["notification-success"]}`}
+          >
+            {serverMessage.map((msg) => (
+              <p>{msg}</p>
+            ))}
+          </div>
+        ) : null}
         <p>Enter your email to signup:</p>
         <Formik
           initialValues={{ email: "" }}
@@ -49,6 +73,7 @@ export default function Home() {
 
             // set data
             if (postResponse?.data?.data) {
+              setServerError([]);
               setServerMessage(postResponse?.data?.data);
               setCompleted(true);
             }
@@ -71,7 +96,7 @@ export default function Home() {
                       {...field}
                       disabled={isSubmitting || isCompleted}
                       className={styles["form-field"]}
-                      placeHolder="Your Vodafone email address*"
+                      placeholder="Your Vodafone email address*"
                       type="text"
                     />
                   );
@@ -93,21 +118,6 @@ export default function Home() {
             </Form>
           )}
         </Formik>
-
-        {serverError.length ? (
-          <>
-            {serverError.map((msg) => (
-              <p>{msg}</p>
-            ))}
-          </>
-        ) : null}
-        {serverMessage ? (
-          <>
-            {serverMessage.map((msg) => (
-              <p>{msg}</p>
-            ))}
-          </>
-        ) : null}
       </main>
     </div>
   );

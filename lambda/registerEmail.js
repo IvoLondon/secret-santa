@@ -97,7 +97,7 @@ exports.handler = async (event) => {
       },
       body: JSON.stringify({
         data: [
-          "You are almost added to the good list.",
+          "You are almost on the good list -",
           "Please check your inbox and verify your email.",
         ],
         errorMessage: null,
