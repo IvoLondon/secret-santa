@@ -29,6 +29,8 @@ async function registrationHandler(
           wishes: body.wishes,
           token: body.token,
           email: body.email,
+          attending: body.attending,
+          address: body.address,
         }),
         mode: "cors",
       }

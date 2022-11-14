@@ -46,6 +46,8 @@ exports.handler = async (event) => {
             token: body.token,
             name: body.name,
             wishes: body.wishes,
+            attending: body.attending,
+            address: body.attending ? "" : body.address,
             tokenExp: new Date().getTime() + 360000000, // 1 hour,
           },
           Expected: {

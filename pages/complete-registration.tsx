@@ -39,6 +39,7 @@ export default function CompleteRegistration({
   const buttonHandler = () => {
     router.push("/");
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.overlay}></div>
@@ -82,7 +83,7 @@ export default function CompleteRegistration({
               name: user?.name || "",
               wishes: user?.wishes || "",
               address: user?.address || "",
-              presence: user?.address ?? false,
+              attending: user?.attending ?? false,
               token,
               email,
             }}
@@ -91,11 +92,10 @@ export default function CompleteRegistration({
               if (!values.name) {
                 errors.name = "Required";
               }
-              if (!values.presence && !values.address) {
+              if (!values.attending && !values.address) {
                 errors.address =
                   "Address field is mandatory if you are not attending in person.";
               }
-              console.log(errors);
               return errors;
             }}
             onSubmit={async (values, { setSubmitting }) => {
@@ -116,7 +116,6 @@ export default function CompleteRegistration({
                 if (postResponse?.data?.data) {
                   setServerMessage(postResponse.data.data);
                 }
-                console.log("Post response is ", postResponse);
               } catch (e) {
                 console.log("Error with submitting: ", e);
               }
@@ -176,7 +175,7 @@ export default function CompleteRegistration({
                   component="div"
                 />
 
-                <Field type="checkbox" name="presence">
+                <Field type="checkbox" name="attending">
                   {({
                     field,
                     form: { isSubmitting },
@@ -204,7 +203,7 @@ export default function CompleteRegistration({
                 <div
                   className={`
                     ${styles[`optional-field`]} ${
-                    values.presence ? `${styles[`hidden`]}` : ""
+                    values.attending ? `${styles[`hidden`]}` : ""
                   }`}
                 >
                   <Field type="text" name="address">
@@ -226,13 +225,12 @@ export default function CompleteRegistration({
                       );
                     }}
                   </Field>
-
-                  <ErrorMessage
-                    className={styles["form-field-message"]}
-                    name="address"
-                    component="div"
-                  />
                 </div>
+                <ErrorMessage
+                  className={styles["form-field-message"]}
+                  name="address"
+                  component="div"
+                />
 
                 <button
                   type="submit"
