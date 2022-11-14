@@ -26,7 +26,7 @@
 .notification {
   margin-bottom: 25px;
   padding: 25px 10px;
-  max-width: 500px;
+  max-width: 1000px;
   width: 100%;
 }
 .notification-error {
@@ -36,6 +36,23 @@
 .notification-success {
   border-top: 2px solid green;
   border-bottom: 2px solid green;
+}
+
+.content {
+  display: flex;
+}
+
+.joke {
+  padding: 0 25px;
+  text-align: center;
+  min-width: 500px;
+  width: 100%;
+}
+.jokeHr {
+  width: 100px;
+  height: 1px;
+  border-bottom: 1px solid white;
+  margin: 0 auto;
 }
 
 .form {

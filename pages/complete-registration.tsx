@@ -18,9 +18,21 @@ export default function CompleteRegistration({
   const router = useRouter();
   const [serverError, setServerError] = useState(errorMessage);
   const [serverMessage, setServerMessage] = useState([]);
+  const [joke, setJoke] = useState();
+
   useEffect(() => {
     if (!email || !token) router.push("/");
   }, [email, token]);
+
+  useEffect(() => {
+    const fetchJoke = async () => {
+      const jokeRes = await fetch("/api/joke-generator");
+      if (jokeRes.status == 200) {
+        setJoke(await jokeRes.json());
+      }
+    };
+    fetchJoke();
+  }, []);
 
   const buttonHandler = () => {
     router.push("/");
@@ -55,112 +67,121 @@ export default function CompleteRegistration({
             ))}
           </div>
         ) : null}
-        <Formik
-          initialValues={{
-            name: user?.name || "",
-            wishes: user?.wishes || "",
-            token,
-            email,
-          }}
-          validate={(values) => {
-            const errors: { name?: string } = {};
-            if (!values.name) {
-              errors.name = "Required";
-            }
-            return errors;
-          }}
-          onSubmit={async (values, { setSubmitting }) => {
-            try {
-              // Make a post request to nextjs server
-              const postData = await fetch("/api/user-registration", {
-                method: "POST",
-                body: JSON.stringify(values),
-              });
-              // parse the result
-              const postResponse = await postData.json();
-
-              // set error message
-              if (postResponse?.errorMessage) {
-                setServerError(postResponse.errorMessage);
+        <div className={styles.content}>
+          {joke ? (
+            <div className={styles.joke}>
+              <h4>{joke.body.setup}</h4>
+              <div className={styles.jokeHr}></div>
+              <h2>{joke.body.delivery} 😂</h2>
+            </div>
+          ) : null}
+          <Formik
+            initialValues={{
+              name: user?.name || "",
+              wishes: user?.wishes || "",
+              token,
+              email,
+            }}
+            validate={(values) => {
+              const errors: { name?: string } = {};
+              if (!values.name) {
+                errors.name = "Required";
               }
-              // set data
-              if (postResponse?.data?.data) {
-                setServerMessage(postResponse.data.data);
-              }
-              console.log("Post response is ", postResponse);
-            } catch (e) {
-              console.log("Error with submitting: ", e);
-            }
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form className={styles.form}>
-              <Field type="hidden" name="token" />
-              <Field type="hidden" name="email" />
-              <Field
-                type="text"
-                name="name"
-                render={({
-                  field,
-                  form: { isSubmitting },
-                }: {
-                  field: any;
-                  form: { isSubmitting: boolean };
-                }) => {
-                  return (
-                    <input
-                      {...field}
-                      disabled={isSubmitting || !!serverError}
-                      className={styles["form-field"]}
-                      placeHolder="Enter your name*"
-                      type="text"
-                    />
-                  );
-                }}
-              />
-              <ErrorMessage
-                className={styles["form-field-message"]}
-                name="name"
-                component="div"
-              />
-              <Field
-                type="text"
-                as="textarea"
-                name="wishes"
-                render={({
-                  field,
-                  form: { isSubmitting },
-                }: {
-                  field: any;
-                  form: { isSubmitting: boolean };
-                }) => {
-                  return (
-                    <textarea
-                      {...field}
-                      rows={15}
-                      disabled={isSubmitting || !!serverError}
-                      className={styles["form-field"]}
-                      placeHolder="Enter your wish list"
-                    />
-                  );
-                }}
-              />
-              <ErrorMessage
-                className={styles["form-field-message"]}
-                name="wishes"
-                component="div"
-              />
+              return errors;
+            }}
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                // Make a post request to nextjs server
+                const postData = await fetch("/api/user-registration", {
+                  method: "POST",
+                  body: JSON.stringify(values),
+                });
+                // parse the result
+                const postResponse = await postData.json();
 
-              <button
-                type="submit"
-                className={styles["submit-button"]}
-                disabled={isSubmitting || !!serverError}
-              >
-                Add to Santa's list.
-              </button>
-            </Form>
-          )}
-        </Formik>
+                // set error message
+                if (postResponse?.errorMessage) {
+                  setServerError(postResponse.errorMessage);
+                }
+                // set data
+                if (postResponse?.data?.data) {
+                  setServerMessage(postResponse.data.data);
+                }
+                console.log("Post response is ", postResponse);
+              } catch (e) {
+                console.log("Error with submitting: ", e);
+              }
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form className={styles.form}>
+                <Field type="hidden" name="token" />
+                <Field type="hidden" name="email" />
+                <Field
+                  type="text"
+                  name="name"
+                  render={({
+                    field,
+                    form: { isSubmitting },
+                  }: {
+                    field: any;
+                    form: { isSubmitting: boolean };
+                  }) => {
+                    return (
+                      <input
+                        {...field}
+                        disabled={isSubmitting || !!serverError}
+                        className={styles["form-field"]}
+                        placeholder="Enter your name*"
+                        type="text"
+                      />
+                    );
+                  }}
+                />
+                <ErrorMessage
+                  className={styles["form-field-message"]}
+                  name="name"
+                  component="div"
+                />
+                <Field
+                  type="text"
+                  as="textarea"
+                  name="wishes"
+                  render={({
+                    field,
+                    form: { isSubmitting },
+                  }: {
+                    field: any;
+                    form: { isSubmitting: boolean };
+                  }) => {
+                    return (
+                      <textarea
+                        {...field}
+                        rows={15}
+                        disabled={isSubmitting || !!serverError}
+                        className={styles["form-field"]}
+                        placeholder="Enter your wish list"
+                      />
+                    );
+                  }}
+                />
+                <ErrorMessage
+                  className={styles["form-field-message"]}
+                  name="wishes"
+                  component="div"
+                />
+
+                <button
+                  type="submit"
+                  className={styles["submit-button"]}
+                  disabled={isSubmitting || !!serverError}
+                >
+                  Add to Santa's list.
+                </button>
+              </Form>
+            )}
+          </Formik>
+        </div>
       </main>
     </div>
   );
