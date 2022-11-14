@@ -81,14 +81,21 @@ export default function CompleteRegistration({
             initialValues={{
               name: user?.name || "",
               wishes: user?.wishes || "",
+              address: user?.address || "",
+              presence: user?.address ?? false,
               token,
               email,
             }}
             validate={(values) => {
-              const errors: { name?: string } = {};
+              const errors: { name?: string; address?: string } = {};
               if (!values.name) {
                 errors.name = "Required";
               }
+              if (!values.presence && !values.address) {
+                errors.address =
+                  "Address field is mandatory if you are not attending in person.";
+              }
+              console.log(errors);
               return errors;
             }}
             onSubmit={async (values, { setSubmitting }) => {
@@ -115,7 +122,7 @@ export default function CompleteRegistration({
               }
             }}
           >
-            {({ isSubmitting }) => (
+            {({ values, isSubmitting }) => (
               <Form className={styles.form}>
                 <Field type="hidden" name="token" />
                 <Field type="hidden" name="email" />
@@ -157,7 +164,7 @@ export default function CompleteRegistration({
                         rows={15}
                         disabled={isSubmitting || !!serverError}
                         className={styles["form-field"]}
-                        placeholder="Enter your wish list"
+                        placeholder="Enter items from your wish list (optional)"
                       />
                     );
                   }}
@@ -168,6 +175,64 @@ export default function CompleteRegistration({
                   name="wishes"
                   component="div"
                 />
+
+                <Field type="checkbox" name="presence">
+                  {({
+                    field,
+                    form: { isSubmitting },
+                  }: {
+                    field: any;
+                    form: { isSubmitting: boolean };
+                  }) => {
+                    return (
+                      <label className={styles["form-field-label"]}>
+                        <input
+                          {...field}
+                          rows={15}
+                          type="checkbox"
+                          disabled={isSubmitting || !!serverError}
+                          className={styles["form-field"]}
+                        />
+                        <span>
+                          Tick if you are attending the gifts exchange in person
+                          at the Speechmark. Santa will be there too!
+                        </span>
+                      </label>
+                    );
+                  }}
+                </Field>
+                <div
+                  className={`
+                    ${styles[`optional-field`]} ${
+                    values.presence ? `${styles[`hidden`]}` : ""
+                  }`}
+                >
+                  <Field type="text" name="address">
+                    {({
+                      field,
+                      form: { isSubmitting },
+                    }: {
+                      field: any;
+                      form: { isSubmitting: boolean };
+                    }) => {
+                      return (
+                        <textarea
+                          {...field}
+                          rows={10}
+                          disabled={isSubmitting || !!serverError}
+                          className={styles["form-field"]}
+                          placeholder="Enter your full address*"
+                        />
+                      );
+                    }}
+                  </Field>
+
+                  <ErrorMessage
+                    className={styles["form-field-message"]}
+                    name="address"
+                    component="div"
+                  />
+                </div>
 
                 <button
                   type="submit"
