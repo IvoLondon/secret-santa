@@ -1,12 +1,20 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 export default function Home() {
   const [serverError, setServerError] = useState([]);
   const [serverMessage, setServerMessage] = useState([]);
   const [isCompleted, setCompleted] = useState(false);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await fetch("/api/get-users");
+      console.log(await users.json());
+    };
+    fetchUsers();
+  }, []);
   return (
     <div className={styles.container}>
       <div className={styles.overlay}></div>
