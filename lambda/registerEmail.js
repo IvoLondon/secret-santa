@@ -47,12 +47,19 @@ exports.handler = async (event) => {
     // UPDATE THE DB
     try {
       const tablePut = await dynamo
-        .put({
+        .update({
           TableName: "formStore",
-          Item: {
+          Key: {
             email: body.email,
-            token: token,
-            tokenExp: tokenExp,
+          },
+          UpdateExpression: "set #token = :x, #tokenExp = :y",
+          ExpressionAttributeNames: {
+            "#token": "token",
+            "#tokenExp": "tokenExp",
+          },
+          ExpressionAttributeValues: {
+            ":x": token,
+            ":y": tokenExp,
           },
         })
         .promise();
