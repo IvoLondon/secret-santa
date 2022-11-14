@@ -18,7 +18,9 @@ export default function CompleteRegistration({
   const router = useRouter();
   const [serverError, setServerError] = useState(errorMessage);
   const [serverMessage, setServerMessage] = useState([]);
-  const [joke, setJoke] = useState();
+  const [joke, setJoke] = useState<{
+    body: { setup: string; delivery: string };
+  }>();
 
   useEffect(() => {
     if (!email || !token) router.push("/");
