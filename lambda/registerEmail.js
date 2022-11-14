@@ -75,7 +75,7 @@ exports.handler = async (event) => {
       subject: "Secret santa", // fix subject
       template_id: "d-ced47cb4d61946a780be644c7657f8ef",
       dynamic_template_data: {
-        registration_url: `https://secret-santa-b4pct2967-ivolondon.vercel.app?token=${token}&email=${body.email}`,
+        registration_url: `https://secret-santa-blush.vercel.app?token=${token}&email=${body.email}`,
       },
     };
 

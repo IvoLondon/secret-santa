@@ -89,10 +89,8 @@ export default function Home() {
         >
           {({ isSubmitting }) => (
             <Form className={styles.form}>
-              <Field
-                type="email"
-                name="email"
-                render={({
+              <Field type="email" name="email">
+                {({
                   field,
                   form: { isSubmitting },
                 }: {
@@ -109,7 +107,7 @@ export default function Home() {
                     />
                   );
                 }}
-              />
+              </Field>
               <ErrorMessage
                 className={styles["form-field-message"]}
                 name="email"

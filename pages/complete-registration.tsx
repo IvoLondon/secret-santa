@@ -119,10 +119,8 @@ export default function CompleteRegistration({
               <Form className={styles.form}>
                 <Field type="hidden" name="token" />
                 <Field type="hidden" name="email" />
-                <Field
-                  type="text"
-                  name="name"
-                  render={({
+                <Field type="text" name="name">
+                  {({
                     field,
                     form: { isSubmitting },
                   }: {
@@ -139,17 +137,14 @@ export default function CompleteRegistration({
                       />
                     );
                   }}
-                />
+                </Field>
                 <ErrorMessage
                   className={styles["form-field-message"]}
                   name="name"
                   component="div"
                 />
-                <Field
-                  type="text"
-                  as="textarea"
-                  name="wishes"
-                  render={({
+                <Field type="text" name="wishes">
+                  {({
                     field,
                     form: { isSubmitting },
                   }: {
@@ -166,7 +161,8 @@ export default function CompleteRegistration({
                       />
                     );
                   }}
-                />
+                </Field>
+
                 <ErrorMessage
                   className={styles["form-field-message"]}
                   name="wishes"
