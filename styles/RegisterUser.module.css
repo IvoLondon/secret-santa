@@ -28,6 +28,7 @@
   padding: 25px 10px;
   max-width: 1000px;
   width: 100%;
+  line-height: 1.5em;
 }
 .notification-error {
   border-top: 2px solid red;
