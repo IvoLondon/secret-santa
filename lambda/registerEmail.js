@@ -41,7 +41,7 @@ exports.handler = async (event) => {
     }
 
     // CREATE THE TOKEN
-    const token = crypto.randomBytes(6).toString("base64");
+    const token = crypto.randomBytes(10).toString("hex");
     const tokenExp = new Date().getTime() + 360000000; // 1 hour
 
     // UPDATE THE DB
@@ -75,7 +75,7 @@ exports.handler = async (event) => {
       subject: "Secret santa", // fix subject
       template_id: "d-ced47cb4d61946a780be644c7657f8ef",
       dynamic_template_data: {
-        registration_url: `https://secret-santa-blush.vercel.app?token=${token}&email=${body.email}`,
+        registration_url: `https://secret-santa-blush.vercel.app/complete-registration?token=${token}&email=${body.email}`,
       },
     };
 
