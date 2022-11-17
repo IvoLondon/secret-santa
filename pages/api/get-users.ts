@@ -5,11 +5,13 @@ async function getUsers(req: NextApiRequest, res: NextApiResponse) {
     const fetchUsers = await fetch(
       "https://eutkkzff3l.execute-api.eu-west-2.amazonaws.com/default/secret-santa-get-users"
     );
-    console.log(await fetchUsers.json());
-    return res.status(200);
+
+    return res.status(200).json(await fetchUsers.json());
   } catch (e) {
     console.log("Fetch users error: ", e);
-    return res.status(500);
+    return res.status(500).json({
+      errorMessage: ["Santa lost the list of names"],
+    });
   }
 }
 export default getUsers;

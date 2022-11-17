@@ -41,36 +41,32 @@ export default function CompleteRegistration({
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.overlay}></div>
+    <div className="container">
+      <div className="overlay"></div>
       <Head>
-        <title className={"asd"}>ho-ho-ho, it's almost X-mas!</title>
+        <title>ho-ho-ho, it's almost X-mas!</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main className="main">
         {serverError ? (
-          <div
-            className={`${styles["notification"]} ${styles["notification-error"]}`}
-          >
+          <div className="notification notification-error">
             <div className="message error-message">{serverError}</div>
-            <button className={styles["submit-button"]} onClick={buttonHandler}>
+            <button className="submit-button" onClick={buttonHandler}>
               Go back
             </button>
           </div>
         ) : null}
 
         {serverMessage.length ? (
-          <div
-            className={`${styles["notification"]} ${styles["notification-success"]}`}
-          >
+          <div className="notification notification-success">
             {serverMessage.map((msg) => (
               <p>{msg}</p>
             ))}
           </div>
         ) : null}
-        <div className={styles.content}>
+        <div className="content">
           {joke ? (
             <div className={styles.joke}>
               <h4>{joke.body.setup}</h4>
@@ -137,7 +133,7 @@ export default function CompleteRegistration({
                       <input
                         {...field}
                         disabled={isSubmitting || !!serverError}
-                        className={styles["form-field"]}
+                        className="form-field"
                         placeholder="Enter your name*"
                         type="text"
                       />
@@ -145,7 +141,7 @@ export default function CompleteRegistration({
                   }}
                 </Field>
                 <ErrorMessage
-                  className={styles["form-field-message"]}
+                  className="form-field-message"
                   name="name"
                   component="div"
                 />
@@ -162,7 +158,7 @@ export default function CompleteRegistration({
                         {...field}
                         rows={15}
                         disabled={isSubmitting || !!serverError}
-                        className={styles["form-field"]}
+                        className="form-field"
                         placeholder="Enter items from your wish list (optional)"
                       />
                     );
@@ -170,7 +166,7 @@ export default function CompleteRegistration({
                 </Field>
 
                 <ErrorMessage
-                  className={styles["form-field-message"]}
+                  className="form-field-message"
                   name="wishes"
                   component="div"
                 />
@@ -184,13 +180,13 @@ export default function CompleteRegistration({
                     form: { isSubmitting: boolean };
                   }) => {
                     return (
-                      <label className={styles["form-field-label"]}>
+                      <label className="form-field-label">
                         <input
                           {...field}
                           rows={15}
                           type="checkbox"
                           disabled={isSubmitting || !!serverError}
-                          className={styles["form-field"]}
+                          className="form-field"
                         />
                         <span>
                           Tick if you are attending the gifts exchange in person
@@ -201,9 +197,8 @@ export default function CompleteRegistration({
                   }}
                 </Field>
                 <div
-                  className={`
-                    ${styles[`optional-field`]} ${
-                    values.attending ? `${styles[`hidden`]}` : ""
+                  className={`optional-field ${
+                    values.attending ? `hidden` : ""
                   }`}
                 >
                   <Field type="text" name="address">
@@ -219,7 +214,7 @@ export default function CompleteRegistration({
                           {...field}
                           rows={10}
                           disabled={isSubmitting || !!serverError}
-                          className={styles["form-field"]}
+                          className="form-field"
                           placeholder="Enter your full address*"
                         />
                       );
@@ -227,14 +222,14 @@ export default function CompleteRegistration({
                   </Field>
                 </div>
                 <ErrorMessage
-                  className={styles["form-field-message"]}
+                  className="form-field-message"
                   name="address"
                   component="div"
                 />
 
                 <button
                   type="submit"
-                  className={styles["submit-button"]}
+                  className="submit-button"
                   disabled={isSubmitting || !!serverError}
                 >
                   Add to Santa's list.

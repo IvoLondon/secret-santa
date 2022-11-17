@@ -1,87 +1,32 @@
-.container {
-  background-image: url("/xmas-background.jpg");
-  background-size: cover;
-}
-.main {
-  min-height: 100vh;
-  padding: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.overlay {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  left: 0;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-}
-
-.notification {
-  margin-bottom: 25px;
-  padding: 25px 10px;
-  max-width: 500px;
-  width: 100%;
-}
-.notification-error {
-  border-top: 2px solid red;
-  border-bottom: 2px solid red;
-}
-.notification-success {
-  border-top: 2px solid green;
-  border-bottom: 2px solid green;
-}
-
 .title {
   font-family: "Mountains of Christmas", cursive;
   font-size: 60px;
 }
 
-.form {
+.signup {
   display: flex;
   flex-direction: column;
-  min-width: 500px;
+  justify-content: center;
+  width: 100%;
+  padding: 0 15px;
 }
 
-.form-field {
-  padding: 10px 15px;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.scroll {
+  position: relative;
+  max-width: 500px;
+}
+
+.list {
+  position: absolute;
+  left: 25%;
+  top: 45%;
   color: black;
-  min-width: 300px;
-  margin-bottom: 5px;
-  font-size: 16px;
+  max-width: 50%;
+  width: 100%;
 }
 
-.form-field-message {
-  padding: 5px;
-  border-radius: 3px;
-  color: red;
-  margin-bottom: 10px;
-}
-
-.submit-button:hover {
-  background-color: rgb(192, 3, 3);
-}
-.submit-button {
-  padding: 10px 15px;
-  color: #fff;
-  background-color: red;
-  font-size: 16px;
-  border: 0;
-  border-radius: 5px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: 0.2s ease-in-out all;
-}
-.form-field:disabled,
-.submit-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
+.list span {
+  display: inline-block;
+  margin-right: 10px;
+  font-family: "Mountains of Christmas", cursive;
 }

@@ -23,3 +23,135 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.main {
+  min-height: 100vh;
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.container {
+  background-image: url("/xmas-background.jpg");
+  background-size: cover;
+}
+
+.overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (min-width: 998px) {
+  .content {
+    flex-direction: row;
+  }
+}
+
+.notification {
+  margin-bottom: 25px;
+  padding: 25px 10px;
+  max-width: 1000px;
+  width: 100%;
+  line-height: 1.5em;
+}
+.notification-error {
+  border-top: 2px solid red;
+  border-bottom: 2px solid red;
+}
+.notification-success {
+  border-top: 2px solid green;
+  border-bottom: 2px solid green;
+}
+
+.form {
+  display: flex;
+  min-width: 500px;
+  flex-direction: column;
+}
+
+.optional-field {
+  width: 100%;
+  height: 100%;
+  max-height: 230px;
+  overflow: hidden;
+  transition: all ease-in-out 2s;
+}
+
+.hidden {
+  max-height: 0px;
+}
+
+.form-field {
+  padding: 10px 15px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: black;
+  min-width: 300px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  font-size: 16px;
+  font-family: inherit;
+  width: 100%;
+  resize: none;
+}
+
+.form-field-message {
+  padding: 5px;
+  border-radius: 3px;
+  color: red;
+  margin-bottom: 10px;
+}
+
+.form-field-label {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  line-height: 1.4em;
+}
+.form-field-label input {
+  flex-basis: 20%;
+  min-width: auto;
+  flex-basis: 20%;
+  width: auto;
+  margin: auto;
+}
+
+.submit-button:hover {
+  background-color: rgb(192, 3, 3);
+}
+.submit-button {
+  padding: 10px 15px;
+  color: #fff;
+  background-color: red;
+  font-size: 16px;
+  border: 0;
+  border-radius: 5px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out all;
+}
+form .submit-button {
+  width: 100%;
+}
+.form-field:disabled,
+.submit-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
