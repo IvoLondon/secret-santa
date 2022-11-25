@@ -227,11 +227,7 @@ export default function CompleteRegistration({
                   component="div"
                 />
 
-                <button
-                  type="submit"
-                  className="submit-button"
-                  disabled={isSubmitting || !!serverError}
-                >
+                <button type="submit" className="submit-button" disabled={true}>
                   Add to Santa's list.
                 </button>
               </Form>

@@ -9,6 +9,9 @@ async function registrationHandler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  // SIGNUP TIME HAS EXPIRED
+  return res.status(200);
+  //
   const body = JSON.parse(req.body);
   if (!body.name) {
     const errorMessage = ["No name provided"];

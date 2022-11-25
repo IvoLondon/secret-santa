@@ -139,7 +139,7 @@ export default function Home() {
                       return (
                         <input
                           {...field}
-                          disabled={isSubmitting || isCompleted}
+                          disabled={true}
                           className="form-field"
                           placeholder="Your Vodafone email address*"
                           type="text"
@@ -156,7 +156,7 @@ export default function Home() {
                   <button
                     type="submit"
                     className="submit-button"
-                    disabled={isSubmitting || isCompleted}
+                    disabled={true}
                   >
                     Signup
                   </button>
