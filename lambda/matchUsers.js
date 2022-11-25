@@ -16,12 +16,11 @@ exports.handler = async (event) => {
         // Define the expression attribute value, which are substitutes for the values you want to compare.
         ExpressionAttributeNames: {
           "#name": "name",
-          "#attending": "attending",
         },
         ExpressionAttributeValues: {
           ":name": "",
         },
-        ProjectionExpression: "#name, #attending, address, wishes, email",
+        ProjectionExpression: "#name, attending, address, wishes, email",
       })
       .promise();
 
@@ -45,7 +44,7 @@ exports.handler = async (event) => {
       } else {
         if (receiver.attending) {
           exchange_method =
-            "One of Santa's elfs will take your gift to the office for you. Please send your gift to the following recipient: \n Ivelin Iliev, 1b Lynn Street, Enfield, EN20JY. Please drop me a message in slack to let me know what I should expect.";
+            "One of Santa's elfs will take your gift to the office for you. Please send your gift to the following recipient: \n Ivelin Iliev, 1b Lynn Street, Enfield, EN20JY.\nPlease drop me a message in slack to let me know what I should expect.";
         } else {
           exchange_method = `Please send your gift to the following address: \n ${receiver.address}`;
         }
@@ -58,7 +57,7 @@ exports.handler = async (event) => {
         dynamic_template_data: {
           sender_name: sender.name,
           receiver_name: receiver.name,
-          location: receiver.name ? "the office" : "home",
+          location: receiver.attending ? "the office" : "home",
           wishes: receiver.wishes
             ? `Here are some ideas from ${receiver.name}'s wish list: \n ${receiver.wishes}`
             : "The giftee hasn't shared their wishlist. It's up to you what colour socks you pick!",
@@ -71,16 +70,21 @@ exports.handler = async (event) => {
     // SEND THE EMAILS
     try {
       console.log("SEND THE EMAILS", messagesList);
+      await Promise.all(
+        messagesList.map((msg) => {
+          console.log("ABOUT TO SEND ", msg);
+          return sgMail.send(msg);
+        })
+      );
+      return {
+        statusCode: 200,
+      };
     } catch (e) {
       console.error("Sending email error ", e);
       return {
         statusCode: 500,
       };
     }
-
-    return {
-      statusCode: 200,
-    };
   } catch (e) {
     console.log("Error with fetch users: ", e);
 
